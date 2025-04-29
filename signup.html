@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup | Smart Society Utility</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1593965973845-16e5d68dc1a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+    }
+
+    .signup-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signup-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      animation: fadeIn 1.2s ease-in-out;
+      position: relative;
+      z-index: 2;
+    }
+
+    .signup-card h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1e3a8a;
+    }
+
+    .signup-card label {
+      margin-top: 1rem;
+      font-weight: 600;
+      display: block;
+    }
+
+    .signup-card input,
+    .signup-card select {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .signup-card button {
+      margin-top: 1.5rem;
+      background-color: #1d4ed8;
+      color: white;
+      padding: 0.75rem;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .signup-card button:hover {
+      background-color: #2563eb;
+    }
+
+    .signup-card p {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .signup-card a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .logo img {
+      width: 60px;
+      height: auto;
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .signup-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="signup-wrapper">
+    <div class="signup-card">
+      <div class="logo">
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="Society Logo" />
+      </div>
+      <h2>Signup - Smart Society Utility</h2>
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" required placeholder="Enter your full name" />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required placeholder="Enter your email address" />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required placeholder="Create a password" />
+
+        <label for="role">Register as:</label>
+        <select id="role" required>
+          <option value="resident">Resident</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <label for="proof">Upload Address Proof (PDF/JPG/PNG):</label>
+        <input type="file" id="proof" accept=".pdf,.jpg,.png" required />
+
+        <button type="submit">Sign Up</button>
+        <p>Already have an account? <a href="index.html">Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function handleSignup(e) {
+      e.preventDefault();
+      const role = document.getElementById("role").value;
+      alert("Signup successful! Redirecting to " + role + " dashboard...");
+
+      // Redirect to appropriate dashboard based on role
+      if (role === "admin") {
+        window.location.href = "dashboard-admin.html";
+      } else {
+        window.location.href = "dashboard-resident.html";
+      }
+    }
+  </script>
+
+</body>
+</html>

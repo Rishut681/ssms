@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Complaint Form | Smart Society</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .dashboard-layout {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #e0f2fe;
+            padding: 2rem 1rem;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(0);
+            z-index: 10;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #b0e0e6;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 1rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #008b8b;
+        }
+
+        .sidebar a {
+            display: block;
+            margin: 0.75rem 0;
+            color: #008b8b;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #b0e0e6;
+            color: #005249;
+            border-left-color: #008b8b;
+        }
+
+        .sidebar a.active {
+            font-weight: 600;
+        }
+
+        .top-navbar {
+            background-color: #ffffff;
+            color: #008b8b;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            /* position: fixed; */
+            margin-left: 250px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-navbar h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        #mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #008b8b;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            padding-top: 1rem;
+            padding-bottom: 0px;
+            background-color: #f5f5f5;
+            flex-grow: 1;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .main-content.full-width {
+            margin-left: 0;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            /* padding-top: 10px; */
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            /* margin-bottom: 2rem;. */
+            border: 1px solid #e0e0e0;
+            max-width: 700px;
+            max-height: 680px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #005249;
+            font-weight: 600;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: #008b8b;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e0e0e0;
+            transition: border-color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #008b8b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvgxmlns='http://www.w3.org/2000/svg'viewBox='0 0 20 20'%3E%3Cpathfill='%23008b8b' d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1em 1em;
+            padding-right: 2.5rem;
+        }
+
+        .form-group select:focus {
+            background-image: url("data:image/svg+xml,%3Csvgxmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23008b8b' d='M5.757 6.586 10 10.828l4.243-4.242L15.657 8l-5.657 5.657-.707.707L4.343 8z'/%3E%3C/svg%3E");
+        }
+
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #008b8b;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: #005249;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #008b8b;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-right: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary:hover {
+            background-color: #cccccc;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                z-index: 20;
+                background-color: #e0f2fe;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .main-content.full-width {
+                margin-left: 0;
+            }
+            #mobile-menu-button {
+                display: block;
+            }
+            .top-navbar h1 {
+                font-size: 1.25rem;
+            }
+            .top-navbar {
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .form-container {
+                padding: 1rem;
+            }
+            .form-container h2 {
+                font-size: 1.25rem;
+            }
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            .form-group label {
+                font-size: 0.875rem;
+            }
+            .form-group input, .form-group textarea, .form-group select {
+                font-size: 0.9rem;
+                padding: 0.6rem;
+            }
+            .btn-primary, .btn-secondary {
+                font-size: 0.9rem;
+                padding: 0.75rem 1rem;
+            }
+            .form-actions {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .btn-secondary {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                width: 100%;
+            }
+            .btn-primary{
+                 width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-navbar">
+        <h1>Smart Society Utility Management System</h1>
+        <button id="mobile-menu-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+            </svg>
+        </button>
+    </nav>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/40" alt="Society Hub Logo">
+                <h1>Society Hub</h1>
+            </div>
+            <a href="dashboard-resident.html">🏠 Dashboard</a>
+            <a href="payment.html">💳 Pay Bills</a>
+            <a href="complaints.html" class="active">📢 Complaints</a>
+            <a href="announcements.html">📣 Announcements</a>
+            <a href="index.html">🚪 Logout</a>
+        </aside>
+
+        <main class="main-content" id="main-content">
+            <div class="form-container">
+                <h2>File a Complaint</h2>
+                <form id="complaint-form">
+                    <div class="form-group">
+                        <label for="complaint-type">Complaint Type</label>
+                        <select id="complaint-type" name="complaint-type" required>
+                            <option value="">Select Type</option>
+                            <option value="water">Water</option>
+                            <option value="electricity">Electricity</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="security">Security</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="complaint-title">Subject</label>
+                        <input type="text" id="complaint-title" name="complaint-title" placeholder="Enter complaint subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="complaint-description">Description</label>
+                        <textarea id="complaint-description" name="complaint-description" placeholder="Enter complaint details" required></textarea>
+                    </div>
+                     <div class="form-group">
+                        <label for="flat-no">Flat No</label>
+                        <input type="text" id="flat-no" name="flat-no" placeholder="Enter your Flat No" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancel-button">Cancel</button>
+                        <button type="submit" class="btn-primary">Submit Complaint</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+
+        if (mobileMenuButton && sidebar) {
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+                mainContent.classList.toggle('full-width');
+            });
+        }
+
+        // Add active class to sidebar links based on current page
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        const currentPage = window.location.href.split('/').pop();
+        sidebarLinks.forEach(link => {
+            const linkPage = link.href.split('/').pop();
+            if (linkPage === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        const complaintForm = document.getElementById('complaint-form');
+        const cancelButton = document.getElementById('cancel-button');
+
+        complaintForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const complaintType = document.getElementById('complaint-type').value;
+            const complaintTitle = document.getElementById('complaint-title').value;
+            const complaintDescription = document.getElementById('complaint-description').value;
+            const flatNo = document.getElementById('flat-no').value;
+
+
+            if (complaintType && complaintTitle && complaintDescription && flatNo) {
+                alert('Your complaint has been submitted successfully!');
+                complaintForm.reset();
+            } else {
+                alert('Please fill in all the required fields.');
+            }
+        });
+
+        cancelButton.addEventListener('click', () => {
+            complaintForm.reset();
+            alert('Form has been reset');
+        });
+    </script>
+</body>
+</html>

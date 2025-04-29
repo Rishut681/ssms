@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Smart Society Utility</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1593965973845-16e5d68dc1a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+    }
+
+    .login-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      animation: fadeIn 1.2s ease-in-out;
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1e3a8a;
+    }
+
+    .login-card label {
+      margin-top: 1rem;
+      font-weight: 600;
+      display: block;
+    }
+
+    .login-card input,
+    .login-card select {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .login-card button {
+      margin-top: 1.5rem;
+      background-color: #1d4ed8;
+      color: white;
+      padding: 0.75rem;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-card button:hover {
+      background-color: #2563eb;
+    }
+
+    .login-card p {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .login-card a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .logo img {
+      width: 60px;
+      height: auto;
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .login-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="logo">
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="Society Logo" />
+      </div>
+      <h2>Smart Society Utility System</h2>
+      <form onsubmit="handleLogin(event)">
+        <label for="role">Login as:</label>
+        <select id="role" required>
+          <option value="resident">Resident</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" required />
+
+        <button type="submit">Login</button>
+        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function handleLogin(event) {
+      event.preventDefault();
+      const role = document.getElementById('role').value;
+      if (role === 'admin') {
+        window.location.href = 'dashboard-admin.html';
+      } else {
+        window.location.href = 'dashboard-resident.html';
+      }
+    }
+  </script>
+
+</body>
+</html>

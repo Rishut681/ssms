@@ -1,0 +1,122 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fc;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .form-container {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus, select:focus {
+    border-color: #4e73df;
+    outline: none;
+    box-shadow: 0 0 8px rgba(78, 115, 223, 0.5);
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  button:hover {
+    background-color: #2e59d9;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #777;
+    margin-top: 15px;
+  }
+  
+  a {
+    color: #4e73df;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* File input styles */
+  input[type="file"] {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  input[type="file"]:hover {
+    border-color: #4e73df;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .form-container {
+      padding: 20px;
+      width: 90%;
+    }
+  
+    h1 {
+      font-size: 24px;
+    }
+  
+    input, select, button {
+      font-size: 14px;
+    }
+  }
+  

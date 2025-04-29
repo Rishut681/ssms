@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Smart Society</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .dashboard-layout {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px; /* Increased sidebar width */
+            background-color: #e0f2fe; /* Light blue background */
+            padding: 2rem 1rem; /* Added padding */
+            height: 100vh;
+            position: fixed;
+            top: 0; /* Changed to top: 0 */
+            left: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added shadow */
+            transition: transform 0.3s ease-in-out; /* Added transition */
+            transform: translateX(0); /* Ensure sidebar is visible by default */
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%); /* Hide sidebar on small screens */
+        }
+
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #b0e0e6; /* Light border */
+        }
+
+        .sidebar-header img {
+            width: 40px; /* Increased logo size */
+            height: 40px;
+            margin-right: 1rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.25rem; /* Increased font size */
+            font-weight: 600;
+            color: #008b8b; /* Darker teal color */
+        }
+
+        .sidebar a {
+            display: block;
+            margin: 0.75rem 0; /* Adjusted spacing */
+            color: #008b8b; /* Darker teal color */
+            text-decoration: none;
+            font-weight: 500; /* Keep 500 font weight */
+            padding: 0.75rem; /* Added padding */
+            border-radius: 0.5rem; /* Rounded corners */
+            transition: background-color 0.3s ease; /* Smooth transition */
+            border-left: 3px solid transparent; /* Added for active state indicator */
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #b0e0e6; /* Light teal hover background */
+            color: #005249; /* Even darker teal on hover/active */
+            border-left-color: #008b8b; /* Active state indicator */
+        }
+
+        .sidebar a.active {
+            font-weight: 600; /* Make active link bold */
+        }
+
+        .main-content {
+            margin-left: 250px; /* Adjusted margin to new sidebar width */
+            /* margin-top: 70px; Adjusted margin to new sidebar width */
+            padding: 2rem;
+            background-color: #f5f5f5; /* Slightly darker background */
+            flex-grow: 1;
+            transition: margin-left 0.3s ease-in-out; /* Added transition for mobile menu */
+        }
+
+        .main-content.full-width {
+            margin-left: 0; /* Remove margin when sidebar is hidden */
+        }
+
+        .top-navbar {
+            background-color: #ffffff; /* White navbar */
+            color: #008b8b; /* Darker teal color */
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added shadow */
+            /* position: fixed; Fixed position */
+            margin-left: 250px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10; /* Ensure navbar is above other elements */
+            display: flex;
+            justify-content: space-between; /* Space between title and menu button */
+            align-items: center;
+        }
+
+        .top-navbar h1 {
+            font-size: 1.5rem; /* Increased font size */
+            margin: 0; /* Removed default margin */
+        }
+
+        #mobile-menu-button {
+            display: none; /* Hidden by default on larger screens */
+            background: none;
+            border: none;
+            color: #008b8b; /* Darker teal color */
+            font-size: 1.5rem; /* Increased size */
+            cursor: pointer;
+            padding: 0;
+        }
+
+
+        .card {
+            background: #ffffff; /* White cards */
+            padding: 1.5rem; /* Increased padding */
+            border-radius: 0.75rem; /* More rounded corners */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Slightly stronger shadow */
+            margin-bottom: 2rem;
+            border: 1px solid #e0e0e0; /* Added border */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added transition */
+        }
+
+        .card:hover {
+            transform: translateY(-0.25rem); /* Slight lift on hover */
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15); /* Increased shadow on hover */
+        }
+
+
+        .card h2 {
+            margin-bottom: 1.25rem; /* Increased margin */
+            font-size: 1.5rem; /* Increased font size */
+            color: #005249; /* Even darker teal */
+            font-weight: 600; /* Make heading bold */
+            border-bottom: 1px solid #e0e0e0; /* Added border */
+            padding-bottom: 0.75rem;
+        }
+
+        .status {
+            float: right;
+            font-weight: bold;
+            color: #008b8b; /* Darker teal for status */
+        }
+
+        .btn-approve {
+            background-color: #16a34a; /* Darker green */
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem; /* Increased padding */
+            margin-left: 0.75rem; /* Increased margin */
+            border-radius: 0.375rem; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-approve:hover {
+            background-color: #15803d; /* Even darker green */
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .btn-reject {
+            background-color: #dc2626; /* Darker red */
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem; /* Increased padding */
+            margin-left: 0.75rem; /* Increased margin */
+            border-radius: 0.375rem; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-reject:hover {
+            background-color: #b91c1c; /* Even darker red */
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .action-buttons {
+            margin-top: 1rem; /* Increased margin */
+            display: flex; /* Use flexbox for button alignment */
+            justify-content: flex-end; /* Align buttons to the right */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) { /* Medium screens and below (tablets) */
+            .sidebar {
+                transform: translateX(-100%); /* Hide sidebar on mobile */
+                position: fixed; /* Ensure it's fixed */
+                top: 0;
+                z-index: 20; /* Sit on top of everything */
+                background-color: #e0f2fe;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0; /* Full width on mobile */
+            }
+            .main-content.full-width {
+                margin-left: 0;
+            }
+            #mobile-menu-button {
+                display: block; /* Show menu button on mobile */
+            }
+            .top-navbar h1 {
+                font-size: 1.25rem; /* Smaller title on mobile */
+            }
+            .top-navbar {
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 640px) { /* Small screens (phones) */
+            .card {
+                padding: 1rem; /* Adjust card padding on small screens */
+            }
+            .card h2 {
+                font-size: 1.25rem; /* Smaller heading on phones */
+            }
+            .btn-approve, .btn-reject {
+                font-size: 0.875rem; /* Smaller button text */
+                padding: 0.375rem 0.75rem;
+            }
+            .action-buttons {
+                flex-direction: column; /* Stack buttons on phones */
+                align-items: flex-end;
+            }
+            .btn-approve, .btn-reject {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <h1>Smart Society Utility Management System - <span class="font-semibold">Admin</span> Dashboard</h1>
+        <button id="mobile-menu-button">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+            </svg>
+        </button>
+    </nav>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/40" alt="Society Hub Logo">
+                <h1>Society Hub</h1>
+            </div>
+            <a href="dashboard-admin.html" class="active">📊 Admin Dashboard</a>
+            <a href="generate-bills.html">🧾 Generate Bills</a>
+            <a href="manage-complaints.html">📢 Manage Complaints</a>
+            <a href="post-announcements.html">📣 Post Announcements</a>
+            <a href="index.html">🚪 Logout</a>
+        </aside>
+
+        <main class="main-content" id="main-content">
+            <div class="card">
+                <h2>👤 Pending Member Requests</h2>
+                <div>
+                    Priya Mehta - Block B102
+                    <div class="action-buttons">
+                        <button class="btn-approve">Approve</button>
+                        <button class="btn-reject">Reject</button>
+                    </div>
+                </div>
+                <div>
+                    Arjun Singh - Block A201
+                    <div class="action-buttons">
+                        <button class="btn-approve">Approve</button>
+                        <button class="btn-reject">Reject</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📢 Complaints Overview</h2>
+                <div>Elevator not working - <span class="status">Pending</span></div>
+                <div>Water leakage near block C - <span class="status">Resolved</span></div>
+                <a href="manage-complaints.html">View All</a>
+            </div>
+
+            <div class="card">
+                <h2>📣 Recent Announcements</h2>
+                <div>🛠 Water supply maintenance on 30 April</div>
+                <div>📅 Society meeting on 1 May at 6 PM</div>
+                <a href="post-announcements.html">Post New</a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+
+        if (mobileMenuButton && sidebar) {
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+                mainContent.classList.toggle('full-width');
+            });
+        }
+
+        // Add active class to sidebar links based on current page
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        const currentPage = window.location.href.split('/').pop(); // Get filename of current page
+        sidebarLinks.forEach(link => {
+            const linkPage = link.href.split('/').pop();
+            if (linkPage === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
